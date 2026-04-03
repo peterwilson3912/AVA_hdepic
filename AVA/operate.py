@@ -339,14 +339,15 @@ def generate_ca_self_consistency_result(
                 }
             )
             
+        all_responses = []
         for _ in range(max_retries):
             try:
                 all_responses = llm.batch_generate_response(batch_input_prompts)
-                break
+                if all_responses:
+                    break
             except Exception as e:
                 print(e)
-                continue
-        
+
         candidate_node["responses"] = all_responses
         
     cleaned_candidate_nodes = [

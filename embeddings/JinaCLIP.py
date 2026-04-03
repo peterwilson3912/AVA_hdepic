@@ -49,7 +49,7 @@ class JinaCLIP(BaseEmbeddingModel):
         
         for i in tqdm(range(0, len(texts), batch_size), total=num_batches, desc="Encoding texts"):
             batch_texts = texts[i:i+batch_size]
-            inputs = processor(batch_texts, return_tensors="pt", padding=True).to(model.device)
+            inputs = processor(text=batch_texts, return_tensors="pt", padding=True).to(model.device)
             batch_features = model.get_text_features(**inputs)
             batch_features /= torch.norm(batch_features, dim=-1, keepdim=True)
             text_features.append(batch_features.cpu().float().numpy())

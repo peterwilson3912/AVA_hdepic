@@ -5,10 +5,10 @@ from PIL import Image
 from openai import OpenAI
 from llms.BaseModel import BaseVideoModel, BaseLanguageModel
 
-API_KEY = "YOUR_API_KEY"
+API_KEY = "AIzaSyCc-o0uYvJoRxYFZFyn_aefW3zIenlTjRY"
 
 class Gemini(BaseVideoModel, BaseLanguageModel):
-    def __init__(self, model_type="gemini-1.5-pro", tp=None):
+    def __init__(self, model_type="gemini-2.5-pro", tp=None):
         self.model_type = model_type
         self.key = API_KEY
 

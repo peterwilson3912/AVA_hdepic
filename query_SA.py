@@ -33,7 +33,11 @@ if __name__ == "__main__":
         ava.query_tree_search(qas[args.question_id]["question"], args.question_id)
         
         final_sa_answer = ava.generate_SA_answer(qas[args.question_id]["question"], args.question_id)
-        print(final_sa_answer)
+
+        print("Question:", qas[args.question_id]["question"])
+        print("Ground truth:", qas[args.question_id]["answer"])
+        print("Predicted:", final_sa_answer)
+        print("Correct:", qas[args.question_id]["answer"] == final_sa_answer)
     else:
         output_folder = "./outputs"
         json_file = f"{output_folder}/query_SA_{args.dataset}_{args.model}.json"

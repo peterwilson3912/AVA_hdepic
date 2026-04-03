@@ -1,0 +1,24 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "AVA graph_construction",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/graph_construction.py",
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "args": [
+                "--model",
+                "qwenvl",
+                "--dataset",
+                "videomme",
+                "--video_id",
+                "601",
+                "--gpus",
+                "4"
+            ],
+            "python": "/data/yaxuanli/miniconda3/envs/ava/bin/python"
+        }
+    ]
+}

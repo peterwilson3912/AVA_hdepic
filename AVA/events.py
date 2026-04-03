@@ -68,6 +68,15 @@ def batch_generate_descriptions(
         for duration in batch_timestamps:
             num_frames = global_config["video_chunk_num_frames"]
             frames, _, _ = video.get_frames_by_num(num_frames=num_frames, duration=duration)
+
+            # print(f"[DEBUG] duration={duration}, num_frames={len(frames) if frames is not None else 'None'}")
+            # if frames is not None and len(frames) > 0:
+            #     print(f"[DEBUG] first frame type={type(frames[0])}")
+            #     try:
+            #         print(f"[DEBUG] first frame size={frames[0].size}")
+            #     except Exception:
+            #         pass
+
             inputs = {
                 "text": PROMPTS["generate_description"],
                 "video": frames,
@@ -75,7 +84,19 @@ def batch_generate_descriptions(
             batch_inputs.append(inputs)
 
         try:
-            batch_descriptions = llm.batch_generate_response(batch_inputs, max_new_tokens=512, temperature=0.5)
+            print(f"[DEBUG] batch size: {len(batch_inputs)}")
+            start = time.time()
+            batch_descriptions = llm.batch_generate_response(
+                batch_inputs,
+                max_new_tokens=512,
+                temperature=0.5
+            )
+            elapsed = time.time() - start
+            print(f"[DEBUG] batch_generate_response finished in {elapsed:.2f} sec")
+            print(f"[DEBUG] got {len(batch_descriptions) if batch_descriptions is not None else 'None'} descriptions")
+
+            if batch_descriptions:
+                print(f"[DEBUG] first description preview:\n{str(batch_descriptions[0])[:500]}")
         except Exception as e:
             print(f"Error generating descriptions for batch {batch_indices}: {e}")
             batch_descriptions = [None] * len(batch_indices)

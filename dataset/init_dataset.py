@@ -1,18 +1,22 @@
 from dataset.lvbench import LVBench
 from dataset.videomme import VideoMME
 from dataset.ava100 import AVA100
+from dataset.hdepic import HDEpicDataset
 
 dataset_zoo = {
     "lvbench": LVBench,
     "videomme": VideoMME,
-    "ava100": AVA100  
+    "ava100": AVA100,
+    "hdepic": HDEpicDataset,
 }
 
 video_idx_zoo = {
     "lvbench": [1, 103],
     "videomme": [601, 900],
-    "ava100": [1, 8]
+    "ava100": [1, 8],
+    "hdepic": [1, 999999],   # or a smaller placeholder range you prefer
 }
+
 
 def get_video_idx(dataset_name):
     if dataset_name not in video_idx_zoo:

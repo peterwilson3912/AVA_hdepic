@@ -265,6 +265,17 @@ def batch_generate_entities_and_relations(
             event = events[event_idx]
             duration = event["duration"]
             frames, timestamps, frame_indices = video.get_frames_by_num(num_frames=8, duration=duration)
+
+            print(f"[DEBUG] event_idx={event_idx}, duration={duration}")
+            print(f"[DEBUG] number of frames: {len(frames) if frames is not None else 'None'}")
+            print(f"[DEBUG] timestamps: {timestamps}")
+            print(f"[DEBUG] frame_indices: {frame_indices}")
+            if frames is not None and len(frames) > 0:
+                print(f"[DEBUG] first frame type: {type(frames[0])}")
+                try:
+                    print(f"[DEBUG] first frame size: {frames[0].size}")
+                except Exception:
+                    pass
             batch_inputs.append({
                 "text": PROMPTS["entity_relation_extraction"],
                 "video": frames,
@@ -276,11 +287,35 @@ def batch_generate_entities_and_relations(
 
             for idx, response in enumerate(batch_responses):
                 event_idx = batch_indices[idx]
+                print("\n" + "=" * 80)
+                print(f"[DEBUG] event_idx={event_idx}, event_id={events[event_idx]['id']}")
+                print(f"[DEBUG] response python type: {type(response)}")
+
+                if isinstance(response, str):
+                    print(f"[DEBUG] raw response preview:\n{response[:2000]}")
+                else:
+                    print(f"[DEBUG] raw response repr preview:\n{repr(response)[:2000]}")
+                print("=" * 80 + "\n")
 
                 try:
                     clean_response = clean_json(response)
+                    print(f"[DEBUG] clean_response type: {type(clean_response)}")
+                    print(f"[DEBUG] clean_response preview:\n{str(clean_response)[:2000]}")
+
                     clean_response = repair_json(clean_response)
+                    print(f"[DEBUG] repaired response type: {type(clean_response)}")
+                    print(f"[DEBUG] repaired response preview:\n{str(clean_response)[:2000]}")
+
                     result_json = json.loads(clean_response)
+                    print(f"[DEBUG] parsed result_json type: {type(result_json)}")
+
+                    if isinstance(result_json, dict):
+                        print(f"[DEBUG] parsed dict keys: {list(result_json.keys())}")
+                    elif isinstance(result_json, list):
+                        print(f"[DEBUG] parsed list length: {len(result_json)}")
+                        if len(result_json) > 0:
+                            print(f"[DEBUG] first list item type: {type(result_json[0])}")
+                            print(f"[DEBUG] first list item preview: {repr(result_json[0])[:1000]}")
 
                     update_response(clean_response, response_file)
 

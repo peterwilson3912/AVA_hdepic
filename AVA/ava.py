@@ -36,7 +36,19 @@ from dataclasses import dataclass, field
 from typing import Type
 from llms.BaseModel import BaseVideoModel, BaseLanguageModel
 from video_utils import VideoRepresentation
+import torch
+import numpy as np
 
+def json_serializer(obj):
+    if isinstance(obj, np.floating):
+        return float(obj)
+    if isinstance(obj, np.integer):
+        return int(obj)
+    if isinstance(obj, np.ndarray):
+        return obj.tolist()
+    if isinstance(obj, torch.Tensor):
+        return obj.detach().cpu().tolist()
+    raise TypeError(f"Type {type(obj)} not serializable")
 @dataclass
 class AVA:
     working_dir: str = field(default=None)
@@ -183,8 +195,15 @@ class AVA:
             logger.info(f"Querying AVA with query: {query}")
             tree_information = tree_search(query, self.llm_model, self.video, self.events_vdb, self.entities_vdb, self.features_vdb)
             
-            with open(os.path.join(question_folder, "tree_information.json"), "w") as f:
-                json.dump(tree_information, f)
+            # with open(os.path.join(question_folder, "tree_information.json"), "w") as f:
+            #     json.dump(tree_information, f)
+            tree_file = os.path.join(question_folder, "tree_information.json")
+            tmp_file = tree_file + ".tmp"
+
+            with open(tmp_file, "w") as f:
+                json.dump(tree_information, f, default=json_serializer, indent=2)
+
+            os.replace(tmp_file, tree_file)
         finally:
             pass
     
@@ -249,7 +268,7 @@ class AVA:
                 llm=self.llm_model,
                 video=self.video,
                 self_consistency_num=4,
-                max_frames=256,
+                max_frames=48,
                 max_retries=3,
             )
             

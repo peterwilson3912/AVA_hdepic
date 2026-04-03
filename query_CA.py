@@ -31,7 +31,10 @@ if __name__ == "__main__":
         )
         
         final_ca_answer = ava.generate_CA_answer(qas[args.question_id]["question"], args.question_id)
-        print(final_ca_answer)
+        print("Question:", qas[args.question_id]["question"])
+        print("Ground truth:", qas[args.question_id]["answer"])
+        print("Predicted:", final_ca_answer)
+        print("Correct:", qas[args.question_id]["answer"] == final_ca_answer)
     else:
         output_folder = "./outputs"
         json_file = f"{output_folder}/query_CA_{args.dataset}_{args.model}.json"
