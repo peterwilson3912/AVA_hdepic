@@ -26,7 +26,8 @@ from .base import (
 )
 
 from embeddings.BaseEmbeddingModel import BaseEmbeddingModel
-from embeddings.JinaCLIP import JinaCLIP
+# from embeddings.JinaCLIP import JinaCLIP
+from embeddings.JinaCLIPv2 import JinaCLIPv2
 
 import os
 import json
@@ -103,7 +104,8 @@ class AVA:
             }
         
         # models
-        self.text_embedding_model: BaseEmbeddingModel = JinaCLIP("jinaai/jina-clip-v1")
+        # self.text_embedding_model: BaseEmbeddingModel = JinaCLIP("jinaai/jina-clip-v1", device="cuda:2")
+        self.text_embedding_model: BaseEmbeddingModel = JinaCLIPv2("jinaai/jina-clip-v2", device="cuda:2")
         self.image_embedding_model: BaseEmbeddingModel = self.text_embedding_model
         self.text_embedding_dim = self.text_embedding_model.embedding_dim
         self.image_embedding_dim = self.image_embedding_model.embedding_dim

@@ -217,7 +217,8 @@ def calculate_sa_score(
     node_results: list,
 ):
     scorer = BERTScorer(model_type="microsoft/deberta-xlarge-mnli", lang="en")
-    
+    scorer._tokenizer.model_max_length = 512  # prevent overflow with transformers 5.x
+
     # calculate the score of each node
     for i, node_result in enumerate(node_results):
         responses = node_result["responses"]
@@ -365,7 +366,8 @@ def calculate_ca_score(
     node_results: list,
 ):
     scorer = BERTScorer(model_type="microsoft/deberta-xlarge-mnli", lang="en")
-    
+    scorer._tokenizer.model_max_length = 512  # prevent overflow with transformers 5.x
+
     for node_result in node_results:
         responses = node_result["responses"]
         answer_counts = {"A": 0, "B": 0, "C": 0, "D": 0}

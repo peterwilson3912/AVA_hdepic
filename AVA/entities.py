@@ -283,7 +283,7 @@ def batch_generate_entities_and_relations(
 
         try:
             print(f"Extracting entities from {batch_events[0]['duration'][0]} to {batch_events[-1]['duration'][-1]}")
-            batch_responses = llm.batch_generate_response(batch_inputs=batch_inputs, max_new_tokens=1024, temperature=0.5)
+            batch_responses = llm.batch_generate_response(batch_inputs=batch_inputs, max_new_tokens=2048, temperature=0.5)
 
             for idx, response in enumerate(batch_responses):
                 event_idx = batch_indices[idx]

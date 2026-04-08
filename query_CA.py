@@ -8,7 +8,7 @@ import argparse
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model", default="qwenvl", help="Name of the LLM model to use")
+    parser.add_argument("--model", default="gemma4vl", help="Name of the LLM model to use")
     parser.add_argument("--dataset", default="lvbench", help="Name of the dataset")
     parser.add_argument("--video_id", type=int, default=-1, help="ID of the video to process")
     parser.add_argument("--question_id", type=int, help="ID of the question to process")

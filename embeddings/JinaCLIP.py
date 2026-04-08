@@ -11,7 +11,7 @@ class JinaCLIP(BaseEmbeddingModel):
         visit https://huggingface.co/jinaai for more models 
         """
         self.device = device if device else "cuda"
-        self.model = AutoModel.from_pretrained(model_type, trust_remote_code=True).to("cuda").eval()
+        self.model = AutoModel.from_pretrained(model_type, trust_remote_code=True, low_cpu_mem_usage=False).to(self.device).eval()
         self.processor = AutoProcessor.from_pretrained(model_type, trust_remote_code=True)
         self.embedding_dim = self.model.config.text_config.embed_dim
         
@@ -24,7 +24,6 @@ class JinaCLIP(BaseEmbeddingModel):
         return self.encode_texts_in_batches(texts, batch_size, self.processor, self.model)
     
     @torch.no_grad()
-    @torch.autocast(device_type="cuda", dtype=torch.bfloat16)
     def encode_images_in_batches(self,images, batch_size, processor, model):
         image_features = []
         num_batches = len(images) // batch_size + int(len(images) % batch_size > 0)
@@ -42,7 +41,6 @@ class JinaCLIP(BaseEmbeddingModel):
         return np.concatenate(image_features, axis=0)
 
     @torch.no_grad()
-    @torch.autocast(device_type="cuda", dtype=torch.bfloat16)
     def encode_texts_in_batches(self,texts, batch_size, processor, model):
         text_features = []
         num_batches = len(texts) // batch_size + int(len(texts) % batch_size > 0)
