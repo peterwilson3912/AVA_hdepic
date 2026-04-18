@@ -105,7 +105,7 @@ class AVA:
         
         # models
         # self.text_embedding_model: BaseEmbeddingModel = JinaCLIP("jinaai/jina-clip-v1", device="cuda:2")
-        self.text_embedding_model: BaseEmbeddingModel = JinaCLIPv2("jinaai/jina-clip-v2", device="cuda:2")
+        self.text_embedding_model: BaseEmbeddingModel = JinaCLIPv2("jinaai/jina-clip-v2", device="cuda:1")
         self.image_embedding_model: BaseEmbeddingModel = self.text_embedding_model
         self.text_embedding_dim = self.text_embedding_model.embedding_dim
         self.image_embedding_dim = self.image_embedding_model.embedding_dim

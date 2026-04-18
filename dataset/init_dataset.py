@@ -14,7 +14,7 @@ video_idx_zoo = {
     "lvbench": [1, 103],
     "videomme": [601, 900],
     "ava100": [1, 8],
-    "hdepic": [1, 999999],   # or a smaller placeholder range you prefer
+    "hdepic": [1, 395],   # 156 single videos + 239 multi-video combinations
 }
 
 

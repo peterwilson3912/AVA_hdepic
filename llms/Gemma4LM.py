@@ -17,6 +17,7 @@ class Gemma4LM(BaseLanguageModel):
             model_type,
             torch_dtype=torch.bfloat16,
             device_map="auto",
+            attn_implementation="eager",
         )
         self.model.eval()
 

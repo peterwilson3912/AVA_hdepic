@@ -23,6 +23,7 @@ class Gemma4VL(BaseVideoModel):
             dtype=torch.bfloat16,
             device_map="auto",
             max_memory=max_memory,
+            attn_implementation="eager",
         )
         self.model.eval()
 
